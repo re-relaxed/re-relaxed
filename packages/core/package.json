@@ -46,7 +46,8 @@
     "build": "pnpm clean && pnpm build:esm && pnpm build:cjs",
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "build:cjs": "tsc -p ./tsconfig.cjs.json",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test:unit": "vitest"
   },
   "devDependencies": {
     "typescript": "^4.9.4"
