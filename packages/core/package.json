@@ -1,0 +1,54 @@
+{
+  "name": "@re-relaxed/core",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "core module of re-relaxed, containing the generation logic",
+  "author": "kassuro <contact@kassuro.de>",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/re-relaxed/re-relaxed#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/re-relaxed/re-relaxed.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/re-relaxed/re-relaxed/issues"
+  },
+  "keywords": [
+    "relaxed",
+    "relaxedjs",
+    "pdf",
+    "pdf-creation"
+  ],
+  "engines": {
+    "node": ">= v18"
+  },
+  "types": "./dist/cjs/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "files": [
+    "./dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "prepack": "pnpm build"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  }
+}

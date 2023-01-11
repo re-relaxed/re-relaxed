@@ -28,6 +28,12 @@ importers:
       prettier: 2.8.2
       typescript: 4.9.4
 
+  packages/core:
+    specifiers:
+      typescript: ^4.9.4
+    devDependencies:
+      typescript: 4.9.4
+
 packages:
 
   /@babel/code-frame/7.18.6:
