@@ -51,5 +51,8 @@
   },
   "devDependencies": {
     "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "puppeteer": "^19.5.2"
   }
 }
