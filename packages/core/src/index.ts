@@ -1,8 +1,10 @@
 import { launch } from 'puppeteer';
 import type { PuppeteerLaunchOptions, Browser } from 'puppeteer';
 
-import { CreateInstanceOptions } from './types';
-import { getPathString } from './utils/path';
+import { createTmpFile, ensureDirExists, getPathString } from './utils/path';
+import { waitForNetwork } from './utils/puppeteer';
+import type { CreateInstanceOptions } from './types';
+import { resolve, basename, extname } from 'path';
 
 export class ReRelaxed {
   private static instance: ReRelaxed;
@@ -44,5 +46,34 @@ export class ReRelaxed {
     }
 
     return ReRelaxed.instance;
+  }
+
+  async generatePdf(inputFile: string) {
+    if (this.browserInstance === null) {
+      throw new Error('Browser launch failed!');
+    }
+
+    const pdfName = basename(inputFile, extname(inputFile));
+
+    // ensure all our dirs exist
+    await Promise.all([ensureDirExists(this.tmpDir), ensureDirExists(this.outDir)]);
+
+    // create tmp copy of input file and create new page / tab
+    const [tmpHtmlFile, page] = await Promise.all([
+      createTmpFile(inputFile, this.tmpDir),
+      this.browserInstance.newPage(),
+    ]);
+
+    await Promise.all([
+      page.goto(`file:${tmpHtmlFile}`, {
+        waitUntil: ['load', 'domcontentloaded'],
+        timeout: 1000 * 30,
+      }),
+      waitForNetwork(page, 250),
+    ]);
+
+    await page.pdf({
+      path: resolve(this.outDir, `${pdfName}.pdf`),
+    });
   }
 }
