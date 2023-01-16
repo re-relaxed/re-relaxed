@@ -1,6 +1,5 @@
 {
   "name": "@re-relaxed/core",
-  "type": "module",
   "version": "0.1.0",
   "description": "core module of re-relaxed, containing the generation logic",
   "author": "kassuro <contact@kassuro.de>",
@@ -47,9 +46,13 @@
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "prepack": "pnpm build",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "pdfs:test": "ts-node ./scripts/pdf-test"
   },
   "devDependencies": {
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.1",
     "typescript": "^4.9.4"
   },
   "dependencies": {

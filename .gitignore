@@ -322,4 +322,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# test dirs / files
+out/
+tmp/
+**/tmp.html
+**/*.pdf
+
 # End of https://www.toptal.com/developers/gitignore/api/node,linux,windows,macos,visualstudiocode,jetbrains+all
