@@ -1,4 +1,3 @@
-import { PageEmittedEvents } from 'puppeteer';
 import type { Page } from 'puppeteer';
 
 /**
@@ -26,17 +25,17 @@ export const waitForNetwork = (page: Page, timeout: number): Promise<void> => {
     };
 
     const onTimeOut = () => {
-      page.off(PageEmittedEvents.Request, onRequest);
-      page.off(PageEmittedEvents.RequestFailed, afterRequest);
-      page.off(PageEmittedEvents.RequestFinished, afterRequest);
+      page.off('request', onRequest);
+      page.off('requestfailed', afterRequest);
+      page.off('requestfinished', afterRequest);
 
       resolve();
     };
 
     timeoutHandle = setTimeout(onTimeOut, timeout);
 
-    page.on(PageEmittedEvents.Request, onRequest);
-    page.on(PageEmittedEvents.RequestFailed, afterRequest);
-    page.on(PageEmittedEvents.RequestFinished, afterRequest);
+    page.on('request', onRequest);
+    page.on('requestfailed', afterRequest);
+    page.on('requestfinished', afterRequest);
   });
 };
