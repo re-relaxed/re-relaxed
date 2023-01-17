@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 
-import { ReRelaxed } from '../../src/index';
+import { ReRelaxed } from '../../dist/cjs/index';
 
 const main = async () => {
   const instance = await ReRelaxed.getInstance({

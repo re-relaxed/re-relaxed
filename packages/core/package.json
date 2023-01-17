@@ -23,16 +23,17 @@
   "engines": {
     "node": ">= v18"
   },
-  "types": "./dist/cjs/types/index.d.ts",
-  "main": "./dist/cjs/index.js",
   "files": [
     "./dist/**/*"
   ],
+  "types": "./dist/cjs/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "import": {
         "types": "./dist/esm/types/index.d.ts",
-        "default": "./dist/esm/index.mjs"
+        "default": "./dist/esm/index.js"
       },
       "require": {
         "types": "./dist/cjs/types/index.d.ts",
@@ -41,8 +42,8 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf ./lib",
-    "build": "pnpm clean && pnpm build:esm && pnpm build:cjs",
+    "clean": "rm -rf ./dist",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:cjs && ./scripts/fix-dist-packages.sh",
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "prepack": "pnpm build",

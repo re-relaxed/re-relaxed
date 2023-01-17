@@ -1,10 +1,11 @@
 import { launch } from 'puppeteer';
 import type { PuppeteerLaunchOptions, Browser } from 'puppeteer';
+import { resolve, basename, extname } from 'node:path';
 
-import { createTmpFile, ensureDirExists, getPathString } from './utils/path';
-import { waitForNetwork } from './utils/puppeteer';
+// use .js extension as temp workaround to make esm build work.
+import { createTmpFile, ensureDirExists, getPathString } from './utils/path.js';
+import { waitForNetwork } from './utils/puppeteer.js';
 import type { CreateInstanceOptions } from './types';
-import { resolve, basename, extname } from 'path';
 
 export class ReRelaxed {
   private static instance: ReRelaxed;
