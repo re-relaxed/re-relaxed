@@ -8,7 +8,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build:all": "nx run-many --target=build"
+    "build:all": "nx run-many --target=build",
+    "release": "nx affected --target=version --base=HEAD"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
