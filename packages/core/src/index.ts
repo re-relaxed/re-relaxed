@@ -1,5 +1,12 @@
 import { launch } from 'puppeteer';
-import type { PuppeteerLaunchOptions, Browser } from 'puppeteer';
+import type {
+  PuppeteerLaunchOptions,
+  Browser,
+  PaperFormat,
+  PDFMargin,
+  PDFOptions,
+  Page,
+} from 'puppeteer';
 import { resolve, basename, extname } from 'node:path';
 
 // use .js extension as temp workaround to make esm build work.
@@ -21,6 +28,12 @@ export class ReRelaxed {
   };
   private tmpDir: string;
   private outDir: string;
+  // pdf options
+  private format: PaperFormat;
+  private margin?: PDFMargin;
+  private height?: number | string;
+  private width?: number | string;
+  private landscape?: boolean;
 
   private constructor(options?: CreateInstanceOptions) {
     if (ReRelaxed.isInternalConstruction === false) {
@@ -31,10 +44,20 @@ export class ReRelaxed {
       tmpDir: options?.tmpDir ?? 'tmp',
       outDir: options?.outDir ?? 'out',
       puppeteerLaunchArgs: options?.puppeteerOptions?.args ?? [],
+      format: options?.pdfOptions?.format ?? 'A4',
+      margin: options?.pdfOptions?.margin ?? undefined,
+      height: options?.pdfOptions?.height ?? undefined,
+      width: options?.pdfOptions?.width ?? undefined,
+      landscape: options?.pdfOptions?.landscape ?? undefined,
     };
 
     this.tmpDir = getPathString(optionsWithDefaults.tmpDir);
     this.outDir = getPathString(optionsWithDefaults.outDir);
+    this.format = optionsWithDefaults.format;
+    this.margin = optionsWithDefaults.margin;
+    this.height = optionsWithDefaults.height;
+    this.width = optionsWithDefaults.width;
+    this.landscape = optionsWithDefaults.landscape;
 
     if (this.puppeteerLaunchConfig.args !== undefined) {
       this.puppeteerLaunchConfig.args.push(...optionsWithDefaults.puppeteerLaunchArgs);
@@ -51,6 +74,40 @@ export class ReRelaxed {
     }
 
     return ReRelaxed.instance;
+  }
+
+  async getOptionsObject(page: Page, pdfName: string): Promise<PDFOptions> {
+    // load header and footer template. Fallback to undefined if not found
+    let [headerTemplate, footerTemplate] = await Promise.all([
+      page.$eval(HEADER_ID, (element) => element.innerHTML).catch(() => undefined),
+      page.$eval(FOOTER_ID, (element) => element.innerHTML).catch(() => undefined),
+    ]);
+
+    // calculate flag for puppeteer if we need ot show header / footer
+    const displayHeaderFooter = headerTemplate !== undefined || footerTemplate !== undefined;
+
+    // set fallback template if header or footer is not set
+    if (!headerTemplate && displayHeaderFooter) {
+      headerTemplate = FALLBACK_TEMPLATE;
+    }
+
+    if (!footerTemplate && displayHeaderFooter) {
+      footerTemplate = FALLBACK_TEMPLATE;
+    }
+
+    return {
+      path: resolve(this.outDir, `${pdfName}.pdf`),
+      displayHeaderFooter,
+      headerTemplate,
+      footerTemplate,
+      printBackground: true,
+      preferCSSPageSize: true,
+      format: this.format,
+      margin: this.margin,
+      height: this.height,
+      width: this.width,
+      landscape: this.landscape,
+    };
   }
 
   async generatePdf(inputFile: string) {
@@ -77,29 +134,8 @@ export class ReRelaxed {
       waitForNetwork(page, 250),
     ]);
 
-    // load header and footer template. Fallback to undefined if not found
-    let [headerTemplate, footerTemplate] = await Promise.all([
-      page.$eval(HEADER_ID, (element) => element.innerHTML).catch(() => undefined),
-      page.$eval(FOOTER_ID, (element) => element.innerHTML).catch(() => undefined),
-    ]);
+    const options = await this.getOptionsObject(page, pdfName);
 
-    // calculate flag for puppeteer if we need ot show header / footer
-    const displayHeaderFooter = headerTemplate !== undefined || footerTemplate !== undefined;
-
-    // set fallback template if header or footer is not set
-    if (!headerTemplate && displayHeaderFooter) {
-      headerTemplate = FALLBACK_TEMPLATE;
-    }
-
-    if (!footerTemplate && displayHeaderFooter) {
-      footerTemplate = FALLBACK_TEMPLATE;
-    }
-
-    await page.pdf({
-      path: resolve(this.outDir, `${pdfName}.pdf`),
-      displayHeaderFooter,
-      headerTemplate,
-      footerTemplate,
-    });
+    await page.pdf(options);
   }
 }
