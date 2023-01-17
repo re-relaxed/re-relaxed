@@ -7,6 +7,10 @@ import { createTmpFile, ensureDirExists, getPathString } from './utils/path.js';
 import { waitForNetwork } from './utils/puppeteer.js';
 import type { CreateInstanceOptions } from './types';
 
+const HEADER_ID = '#page-header';
+const FOOTER_ID = '#page-footer';
+const FALLBACK_TEMPLATE = '<span></span>';
+
 export class ReRelaxed {
   private static instance: ReRelaxed;
   private static isInternalConstruction = false;
@@ -73,8 +77,29 @@ export class ReRelaxed {
       waitForNetwork(page, 250),
     ]);
 
+    // load header and footer template. Fallback to undefined if not found
+    let [headerTemplate, footerTemplate] = await Promise.all([
+      page.$eval(HEADER_ID, (element) => element.innerHTML).catch(() => undefined),
+      page.$eval(FOOTER_ID, (element) => element.innerHTML).catch(() => undefined),
+    ]);
+
+    // calculate flag for puppeteer if we need ot show header / footer
+    const displayHeaderFooter = headerTemplate !== undefined || footerTemplate !== undefined;
+
+    // set fallback template if header or footer is not set
+    if (!headerTemplate && displayHeaderFooter) {
+      headerTemplate = FALLBACK_TEMPLATE;
+    }
+
+    if (!footerTemplate && displayHeaderFooter) {
+      footerTemplate = FALLBACK_TEMPLATE;
+    }
+
     await page.pdf({
       path: resolve(this.outDir, `${pdfName}.pdf`),
+      displayHeaderFooter,
+      headerTemplate,
+      footerTemplate,
     });
   }
 }

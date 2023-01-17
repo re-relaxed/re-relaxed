@@ -16,6 +16,7 @@ const main = async () => {
   });
   await instance.generatePdf(resolve(__dirname, './helloWorld.html'));
   await instance.generatePdf(resolve(__dirname, './HelloImage.html'));
+  await instance.generatePdf(resolve(__dirname, './helloHeaderFooter.html'));
 
   process.exit();
 };

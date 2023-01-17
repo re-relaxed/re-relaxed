@@ -48,7 +48,7 @@
     "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "prepack": "pnpm build",
     "test:unit": "vitest",
-    "pdfs:test": "ts-node ./scripts/pdf-test"
+    "pdfs:test": "pnpm build:cjs && ts-node ./scripts/pdf-test"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
