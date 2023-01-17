@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.0](https://github.com/re-relaxed/re-relaxed/compare/core-0.1.0...core-0.2.0) (2023-01-17)
+
+
+### Features
+
+* **core getInstance:** extend createInstanceOptions with puppeteer pdf options ([2b33026](https://github.com/re-relaxed/re-relaxed/commit/2b330268526fac69efc4245b487a5b878aa1b627))
+* **core/generatePdf:** add support for puppeteer header / footer ([212dd12](https://github.com/re-relaxed/re-relaxed/commit/212dd1222bb16e905cf21da24757261af1e5425a))
+
+
+### Bug Fixes
+
+* **core puppeteer utils:** remove usage of const enum PageEmittedEvents ([0cac83d](https://github.com/re-relaxed/re-relaxed/commit/0cac83d777b1a515adfec037e6993fc6cc29182e))
+
 ## 0.1.0 (2023-01-16)
 
 
