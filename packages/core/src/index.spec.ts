@@ -1,8 +1,24 @@
-import { describe, it, expect } from 'vitest';
+import { rm } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 
 import { ReRelaxed } from '.';
 
 describe('ReRelaxed class', () => {
+  beforeAll(async () => {
+    await ReRelaxed.getInstance({
+      tmpDir: '.',
+      outDir: '.',
+    });
+  });
+
+  afterAll(async () => {
+    // remove create test files
+    setTimeout(async () => {
+      await Promise.all([rm(resolve('./*.html')), rm('./*.pdf')]);
+    }, 100);
+  });
+
   describe('is implemented as a singleton', () => {
     it('can not be instantiated with new', () => {
       // @ts-expect-error we try to test the unwanted behavior for instantiation.
@@ -33,6 +49,20 @@ describe('ReRelaxed class', () => {
       const instanceB = await ReRelaxed.getInstance();
 
       expect(instanceA === instanceB).toBe(true);
+    });
+  });
+
+  describe('input file type checks', () => {
+    it('only allows html files as input without a transform plugin', async () => {
+      const reRelaxed = await ReRelaxed.getInstance();
+
+      expect(reRelaxed.generatePdf('./test.htm')).rejects.toThrowError();
+      expect(reRelaxed.generatePdf('./test.123')).rejects.toThrowError();
+      expect(reRelaxed.generatePdf('./test.pug')).rejects.toThrowError();
+
+      expect(reRelaxed.generatePdf(resolve('.', './src/__mock__/template.html'))).resolves.toBe(
+        undefined,
+      );
     });
   });
 });
