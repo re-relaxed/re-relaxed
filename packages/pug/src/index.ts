@@ -4,6 +4,8 @@ import { TransformPlugin } from '@re-relaxed/core';
 import { readFile, writeFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 
+import { ScssPugFilter } from './filters/scss';
+
 export class PugTransformPlugin extends TransformPlugin {
   async transform(
     inputPath: string,
@@ -16,6 +18,10 @@ export class PugTransformPlugin extends TransformPlugin {
 
     const renderedHTML = pug.render(templateEntry, {
       filename: inputPath,
+      filters: {
+        scss: ScssPugFilter,
+        sass: ScssPugFilter,
+      },
       ...templateData,
     });
 

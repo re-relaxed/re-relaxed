@@ -9,7 +9,7 @@
     "declaration": true,
     "declarationMap": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "pug"]
+    "types": ["node", "pug", "sass"]
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["./src/**/*.spec.ts", "node_modules", "dist"]
