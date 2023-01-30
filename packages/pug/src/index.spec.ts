@@ -33,30 +33,28 @@ describe('Pug transform plugin', () => {
     await Promise.all(deletePromises);
   });
 
-  describe('', async () => {
-    it('has working extension check for pug files', async () => {
-      const reRelaxed = await ReRelaxed.getInstance();
+  it('has working extension check for pug files', async () => {
+    const reRelaxed = await ReRelaxed.getInstance();
 
-      expect(reRelaxed.generatePdf(resolve('.', './src/__mock__/template.pug'))).resolves.toBe(
-        undefined,
-      );
+    expect(reRelaxed.generatePdf(resolve('.', './src/__mock__/template.pug'))).resolves.toBe(
+      undefined,
+    );
+  });
+
+  it('generates a pdf file from template', async () => {
+    const reRelaxed = await ReRelaxed.getInstance();
+
+    await reRelaxed.generatePdf(resolve('.', './src/__mock__/template.pug'));
+
+    let expectedOutputFile = resolve('.', 'template.pdf');
+    expect(existsSync(expectedOutputFile)).toBeTruthy();
+
+    await reRelaxed.generatePdf(resolve('.', './src/__mock__/templateWithData.pug'), {
+      test: 'hello',
+      obj: { test: 1 },
     });
 
-    it('generates a pdf file from template', async () => {
-      const reRelaxed = await ReRelaxed.getInstance();
-
-      await reRelaxed.generatePdf(resolve('.', './src/__mock__/template.pug'));
-
-      let expectedOutputFile = resolve('.', 'template.pdf');
-      expect(existsSync(expectedOutputFile)).toBeTruthy();
-
-      await reRelaxed.generatePdf(resolve('.', './src/__mock__/templateWithData.pug'), {
-        test: 'hello',
-        obj: { test: 1 },
-      });
-
-      expectedOutputFile = resolve('.', 'templateWithData.pdf');
-      expect(existsSync(expectedOutputFile)).toBeTruthy();
-    });
+    expectedOutputFile = resolve('.', 'templateWithData.pdf');
+    expect(existsSync(expectedOutputFile)).toBeTruthy();
   });
 });

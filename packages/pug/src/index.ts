@@ -5,8 +5,23 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 
 import { ScssPugFilter } from './filters/scss';
+import { PugCustomFilterFunc } from './types';
 
 export class PugTransformPlugin extends TransformPlugin {
+  private filters: Record<string, PugCustomFilterFunc>;
+
+  constructor(customFilters?: Record<string, PugCustomFilterFunc>) {
+    super();
+
+    this.filters = Object.assign(
+      {
+        scss: ScssPugFilter,
+        sass: ScssPugFilter,
+      },
+      customFilters,
+    );
+  }
+
   async transform(
     inputPath: string,
     outputPath: string,
@@ -18,10 +33,7 @@ export class PugTransformPlugin extends TransformPlugin {
 
     const renderedHTML = pug.render(templateEntry, {
       filename: inputPath,
-      filters: {
-        scss: ScssPugFilter,
-        sass: ScssPugFilter,
-      },
+      filters: this.filters,
       ...templateData,
     });
 
