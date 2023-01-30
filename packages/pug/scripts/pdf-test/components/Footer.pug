@@ -1,0 +1,18 @@
+template#page-footer
+    style(type='text/css').
+      .footer {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+        font-size: 14px;
+      }
+
+    .footer
+      h1 #{ footer.main }
+      p #{ footer.sub }
+
+      .page-numbers
+        span #[span.pageNumber]
+        span / #[span.totalPages]

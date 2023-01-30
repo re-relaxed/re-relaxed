@@ -1,0 +1,37 @@
+include ./components/Header
+include ./components/Footer
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Document
+    style(type='text/css').
+      body {
+        padding: 5rem .25rem;
+      }
+
+      #data {
+        border: 1px solid black;
+        color: red;
+        font-size: 2rem;
+        margin: 0 auto;
+        padding: 1rem;
+        width: 40%;
+      }
+
+      .author {
+        color: green;
+      }
+
+  body
+    h1 Hi how are you?
+    p Is everything how you would expect it?
+
+    img(src="./test.png", alt="an image" style)
+
+    #data
+      p #{ msg.text }
+      p.author #{ msg.author }

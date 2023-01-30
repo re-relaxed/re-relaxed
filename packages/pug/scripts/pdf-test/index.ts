@@ -13,7 +13,7 @@ const main = async () => {
      */
 
     tmpDir: __dirname,
-    outDir: __dirname,
+    outDir: resolve(__dirname, 'out'),
     plugins: {
       transform: new PugTransformPlugin(),
     },
@@ -22,6 +22,16 @@ const main = async () => {
   await instance.generatePdf(resolve(__dirname, './simpleTemplate.pug'));
   await instance.generatePdf(resolve(__dirname, './templateWithData.pug'), {
     msg: { text: 'hello world', author: 'some person' },
+  });
+
+  await instance.generatePdf(resolve(__dirname, './footerAndHeaderTemplate.pug'), {
+    msg: { text: 'hello world', author: 'some person' },
+    footer: { main: 'hello world', sub: 'hi i am here too' },
+  });
+
+  await instance.generatePdf(resolve(__dirname, './multiFileTemplate.pug'), {
+    msg: { text: 'hello world', author: 'some person' },
+    footer: { main: 'hello world', sub: 'hi i am here too' },
   });
 
   process.exit();
