@@ -326,6 +326,7 @@ $RECYCLE.BIN/
 out/
 tmp/
 **/tmp.html
+**/transformed.html
 **/*.pdf
 
 # End of https://www.toptal.com/developers/gitignore/api/node,linux,windows,macos,visualstudiocode,jetbrains+all
