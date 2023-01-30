@@ -1,8 +1,8 @@
-import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 
 import { ReRelaxed } from '.';
+import { removeTestFiles } from './utils/removeTestFiles';
 
 describe('ReRelaxed class', () => {
   beforeAll(async () => {
@@ -13,10 +13,7 @@ describe('ReRelaxed class', () => {
   });
 
   afterAll(async () => {
-    // remove create test files
-    setTimeout(async () => {
-      await Promise.all([rm(resolve('./*.html')), rm('./*.pdf')]);
-    }, 100);
+    await removeTestFiles();
   });
 
   describe('is implemented as a singleton', () => {
