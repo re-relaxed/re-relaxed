@@ -15,6 +15,7 @@ export class PugTransformPlugin extends TransformPlugin {
     });
 
     const renderedHTML = pug.render(templateEntry, {
+      filename: inputPath,
       ...templateData,
     });
 
