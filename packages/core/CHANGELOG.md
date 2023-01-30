@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.0](https://github.com/re-relaxed/re-relaxed/compare/core-0.2.0...core-0.3.0) (2023-01-30)
+
+
+### Features
+
+* **core plugin API:** add transform plugin support ([748614c](https://github.com/re-relaxed/re-relaxed/commit/748614c3fc30141d0ecca44f110e0cb2a93792a9))
+
 ## [0.2.0](https://github.com/re-relaxed/re-relaxed/compare/core-0.1.0...core-0.2.0) (2023-01-17)
 
 

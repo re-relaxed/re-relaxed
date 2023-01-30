@@ -1,6 +1,6 @@
 {
   "name": "@re-relaxed/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "core module of re-relaxed, containing the generation logic",
   "author": "kassuro <contact@kassuro.de>",
   "license": "MIT",
