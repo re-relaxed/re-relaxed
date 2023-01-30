@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/re-relaxed/re-relaxed/compare/pug-0.1.0...pug-0.1.1) (2023-01-30)
+
+
+### Bug Fixes
+
+* **pug:** fixes impractical typing of PugCustomFilterFunc options param ([a8ea022](https://github.com/re-relaxed/re-relaxed/commit/a8ea022dd758cf3d260d87b3a006f1abccf4f874))
+
 ## 0.1.0 (2023-01-30)
 
 
