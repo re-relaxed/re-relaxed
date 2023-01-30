@@ -34,6 +34,9 @@ const main = async () => {
     footer: { main: 'hello world', sub: 'hi i am here too' },
   });
 
+  await instance.generatePdf(resolve(__dirname, './templateWithScss.pug'));
+  await instance.generatePdf(resolve(__dirname, './templateWithSass.pug'));
+
   process.exit();
 };
 
