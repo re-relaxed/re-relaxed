@@ -1,6 +1,6 @@
 {
   "name": "@re-relaxed/pug",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "@re-relaxed pug template plugin",
   "author": "kassuro <contact@kassuro.de>",
   "license": "MIT",
