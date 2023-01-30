@@ -1,0 +1,67 @@
+{
+  "name": "@re-relaxed/pug",
+  "version": "0.0.0",
+  "description": "@re-relaxed pug template plugin",
+  "author": "kassuro <contact@kassuro.de>",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/re-relaxed/re-relaxed#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/re-relaxed/re-relaxed.git",
+    "directory": "packages/pug"
+  },
+  "bugs": {
+    "url": "https://github.com/re-relaxed/re-relaxed/issues"
+  },
+  "keywords": [
+    "relaxed",
+    "relaxedjs",
+    "pdf",
+    "pdf-creation"
+  ],
+  "engines": {
+    "node": ">= v18"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "types": "./dist/cjs/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:cjs && ./scripts/fix-dist-packages.sh",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "prepack": "pnpm build",
+    "test:unit": "vitest",
+    "pdfs:test": "pnpm build:cjs && ts-node ./scripts/pdf-test"
+  },
+  "devDependencies": {
+    "@re-relaxed/core": "workspace:^0.2.0",
+    "@types/node": "^18.11.18",
+    "@types/pug": "^2.0.6",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "pug": "^3.0.2"
+  },
+  "peerDependencies": {
+    "@re-relaxed/core": "^0.2.0"
+  }
+}
